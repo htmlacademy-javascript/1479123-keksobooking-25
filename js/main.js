@@ -34,8 +34,6 @@ export const getRandomFloat = (first, second, digits) => {
   return result;
 };
 
-window.console.log(getRandomFloat(30.748, 32.78787, 1));
-
 const titlesPool = [
   'Hilton','Kempinski','Crown Plaza','Holiday Inn','Four Seasons','Kamikadze','Sushi Hotel','Kawasaki','Sudoku','Sumo'
 ];
@@ -76,7 +74,7 @@ const getItemWithWeight = (item) => ({item, weight: Math.random()});
 const compareWeight = (left, right) => left.weight - right.weight;
 const getItemFromObj = (obj) => obj.item;
 const permute = (items) => items.map(getItemWithWeight).sort(compareWeight).map(getItemFromObj);
-const getSubArrayRandom = (items) => items.slices(0, getRandomInteger(0,items.length));
+const getSubArrayRandom = (items) => items.slice(0, getRandomInteger(0,items.length));
 
 
 const getOffer = (location) => {
@@ -109,6 +107,7 @@ const getOffer = (location) => {
 const getPost = (index) => {
   const location = getLocation();
   return ({
+    id:index,
     author:`img/avatars/user${checkNumberAvt(getRandomInteger(1, 11))}.png`,
     offer: getOffer(location),
     location
@@ -116,3 +115,5 @@ const getPost = (index) => {
 
 
 const makeArray = (length, ctor) => Array.from({length},(_,index) => ctor(index));
+const posts = makeArray(25, getPost);
+window.console.log({posts});
