@@ -36,36 +36,83 @@ export const getRandomFloat = (first, second, digits) => {
 
 window.console.log(getRandomFloat(30.748, 32.78787, 1));
 
-const new_Object = {
-  author: img/avatars/user{{xx}}.png, //{{xx}} — это число от 1 до 10. Перед однозначными числами ставится 0. Например, 01, 02...10. Адреса изображений не повторяются.
+const titlesPool = [
+  'Hilton','Kempinski','Crown Plaza','Holiday Inn','Four Seasons','Kamikadze','Sushi Hotel','Kawasaki','Sudoku','Sumo'
+];
+const typesPool = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+const checkInPool = ['12:00', '13:00', '14:00'];
+const featuresPool = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+const descriptionsList = ['sea view','park view','infinity pool','king size bed', 'animals allowed', 'not far from city center', 'bed for baby', 'smoking allowed'];
+const photosPool = [
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
+];
 
-  offer, объект — содержит информацию об объявлении. Состоит из полей:
+const getRandomInteger = (min, max) => {
+  if(!Number.isInteger(min)){
+    throw new Error('min is not a whole number!');
+  }
+  if(!Number.isInteger(max)){
+    throw new Error('max is not a whole number!');
+  }
+  if(min >= max){
+    throw new Error('max should be grater than min');
+  }
+  const factor = max - min;
+  const result = min + factor * Math.random();
+  return Math.floor(result);
+};
 
-  title, строка — заголовок предложения. Придумайте самостоятельно.
+const getLocation = () => ({
+  lat: getRandomFloat(35.65, 35.7, 5),
+  lng: getRandomFloat(139.7, 139.8, 5)
+});
 
-  address, строка — адрес предложения. Для простоты пусть пока составляется из географических координат по маске {{location.lat}}, {{location.lng}}.
+const checkNumberAvt = (num) => (num >= 10) ? num : `0${num}`;
+const getRandomItem = (items) => items[getRandomInteger(0,items.length)];
+const getAddressFromLocation = (location) => `${location.lat},${location.lng}`;
+const getItemWithWeight = (item) => ({item, weight: Math.random()});
+const compareWeight = (left, right) => left.weight - right.weight;
+const getItemFromObj = (obj) => obj.item;
+const permute = (items) => items.map(getItemWithWeight).sort(compareWeight).map(getItemFromObj);
+const getSubArrayRandom = (items) => items.slices(0, getRandomInteger(0,items.length));
 
-  price, число — стоимость. Случайное целое положительное число.
 
-  type, строка — одно из пяти фиксированных значений: palace, flat, house, bungalow или hotel.
+const getOffer = (location) => {
+  const checkIn = getRandomItem(checkInPool);
+  return({
+    title:getRandomItem(titlesPool),// строка — заголовок предложения. Придумайте самостоятельно.
 
-  rooms, число — количество комнат. Случайное целое положительное число.
+    address: getAddressFromLocation(location),// строка — адрес предложения. Для простоты пусть пока составляется из географических координат по маске {{location.lat}}, {{location.lng}}.
 
-  guests, число — количество гостей, которое можно разместить. Случайное целое положительное число.
+    price: getRandomInteger(0,Number.MAX_SAFE_INTEGER),// Обозначить волшебные числа, число — стоимость. Случайное целое положительное число.
 
-  checkin, строка — одно из трёх фиксированных значений: 12:00, 13:00 или 14:00.
+    type:getRandomItem(typesPool),// строка — одно из пяти фиксированных значений: palace, flat, house, bungalow или hotel.
 
-  checkout, строка — одно из трёх фиксированных значений: 12:00, 13:00 или 14:00.
+    rooms: getRandomInteger(0,Number.MAX_SAFE_INTEGER),// Обозначить волшебные числа, число — стоимость.число — количество комнат. Случайное целое положительное число.
 
-  features, массив строк — массив случайной длины из значений: wifi, dishwasher, parking, washer, elevator, conditioner. Значения не должны повторяться.
+    guests: getRandomInteger(0,Number.MAX_SAFE_INTEGER),// Обозначить волшебные числа, число — стоимость.,// число — количество гостей, которое можно разместить. Случайное целое положительное число.
 
-  description, строка — описание помещения. Придумайте самостоятельно.
+    checkin:checkIn,// строка — одно из трёх фиксированных значений: 12:00, 13:00 или 14:00.
 
-  photos, массив строк — массив случайной длины из значений: https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg, https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg, https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg.
+    checkout:checkIn,// строка — одно из трёх фиксированных значений: 12:00, 13:00 или 14:00.
 
-  location, объект — местоположение в виде географических координат. Состоит из двух полей:
+    features: getSubArrayRandom(permute(featuresPool)),// массив строк — массив случайной длины из значений: wifi, dishwasher, parking, washer, elevator, conditioner. Значения не должны повторяться.
 
-  lat, число с плавающей точкой — широта, случайное значение от 35.65000 до 35.70000.
+    description: getRandomItem(descriptionsList),// строка — описание помещения. Придумайте самостоятельно.
 
-  lng, число с плавающей точкой — долгота, случайное значение от 139.70000 до 139.80000.
-}
+    photos: getSubArrayRandom(permute(photosPool)),// массив строк — массив случайной длины из значений: https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg, https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg, https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg.
+
+
+  });};
+const getPost = (index) => {
+  const location = getLocation();
+  return ({
+    author:`img/avatars/user${checkNumberAvt(getRandomInteger(1, 11))}.png`,
+    offer: getOffer(location),
+    location
+  });};
+
+
+const makeArray = (length, ctor) => Array.from({length},(_,index) => ctor(index));
