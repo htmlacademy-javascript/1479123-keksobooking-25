@@ -1,51 +1,5 @@
-import { FIRST_VALUE_ERROR, SECOND_VALUE_ERROR, RANGE_ERROR, DIGITS_ERROR } from './messages.js';
-
-const assertNumber = (value, message) => {
-  if(Number.isNaN(value)){
-    throw new Error(message);
-  }
-};
-
-const assertRange = (first, second, message) => {
-  if(second <= first){
-    throw new Error(message);
-  }
-};
-
-const assertDigits = (value, message) => {
-  if(!Number.isInteger(value) || value < 0){
-    throw new Error(message);
-  }
-};
-
-export const getRandomFloat = (first, second, digits) => {
-  assertNumber(first, FIRST_VALUE_ERROR);
-  assertNumber(second, SECOND_VALUE_ERROR);
-  assertRange(first, second, RANGE_ERROR);
-  assertDigits(digits, DIGITS_ERROR);
-
-  const result = Number.parseFloat((Math.random()*(second-first) + first).toFixed(digits));
-  if(result < first){
-    return first;
-  }
-  if(result > second){
-    return second;
-  }
-  return result;
-};
-
-const titlesPool = [
-  'Hilton','Kempinski','Crown Plaza','Holiday Inn','Four Seasons','Kamikadze','Sushi Hotel','Kawasaki','Sudoku','Sumo'
-];
-const typesPool = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
-const checkInPool = ['12:00', '13:00', '14:00'];
-const featuresPool = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-const descriptionsList = ['sea view','park view','infinity pool','king size bed', 'animals allowed', 'not far from city center', 'bed for baby', 'smoking allowed'];
-const photosPool = [
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
-];
+import {getRandomFloat} from './random-float.js';
+import {titlesPool, typesPool, checkInPool, featuresPool, descriptionsList, photosPool} from './pools.js';
 
 const getRandomInteger = (min, max) => {
   if(!Number.isInteger(min)){
