@@ -1,6 +1,6 @@
-import { getOffer } from './mock-offer';
-import { getRandomFloat } from './random-float';
-import { getRandomInteger } from './random-int';
+import { getOffer } from './mock-offer.js';
+import { getRandomFloat } from './random-float.js';
+import { getRandomInteger } from './random-int.js';
 
 const checkNumberAvt = (num) => (num >= 10) ? num : `0${num}`;
 
