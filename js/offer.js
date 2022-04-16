@@ -10,12 +10,25 @@ const fillOrRemoveElement = (element, content) => {
   }
   element.remove();
 };
+const findPhotoTemplate = (element) => {
+  const template = element.querySelector('.popup__photo');
+  template.remove();
+  return template;
+};
+const createNewPhoto = (element) => (src) => {
+  const result = element.cloneNode(true);
+  result.src = src;
+  return result;
+};
 
-const createPhotoPath = (element, link) => {
+const fillPhotos = (element, photosURLs) => {
   if(!(element instanceof HTMLElement)){
     return;
   }
-  return element.src = link;
+  element.append(
+    ...photosURLs.map(
+      createNewPhoto(
+        findPhotoTemplate(element))));
 };
 
 const formatPrice = (price) => {
@@ -51,9 +64,11 @@ const renderFeaturesList = (featuresList ,isNecessary) => {
   });
 };
 
-const setPictureAttr()
+const setAuthorAvatar = (element, src) => {
+  element.src = src;
+};
 
-export const fillTemplate = (element,offer) => {
+export const fillTemplate = (element,{offer,author}) => {
   fillOrRemoveElement(
     element.querySelector('.popup__title'),
     offer.title
@@ -89,8 +104,13 @@ export const fillTemplate = (element,offer) => {
     offer.description
   );
 
-  createPhotoPath(
+  fillPhotos(
     element.querySelector('.popup__photos'),
-    setPictureAttr(offer.photos)
+    offer.photos
+  );
+
+  setAuthorAvatar(
+    element.querySelector('.popup__avatar'),
+    author
   );
 };
