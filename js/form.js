@@ -1,25 +1,20 @@
-const form = document.querySelector('.ad-form');
-const formElements = document.querySelectorAll('.ad-form__element');
-const mapFilters = document.querySelector('.map__filters');
-const mapFiltersElements = mapFilters.querySelectorAll('.map__filter');
-
-const accessibilitySwitch = (elements, isDisabled) => {
-  elements.forEach(
-    (element) => {
-      element.disabled = isDisabled;
-    });
+const crateSetControlActivity = (isDisabled) => (element) => {
+  element.disabled = isDisabled;
 };
 
-export const inactiveState = () => {
-  form.classList.add('ad-form--disabled');
-  mapFilters.classList.add('map__filters--disabled');
-  accessibilitySwitch(formElements, true);
-  accessibilitySwitch(mapFiltersElements, true);
+const setInactiveStateForControls = (elements, isDisabled) => {
+  [...elements].forEach(crateSetControlActivity(isDisabled));
 };
 
-export const activeState = () => {
-  form.classList.remove('ad-form--disabled');
-  mapFilters.classList.remove('map__filters--disabled');
-  accessibilitySwitch(formElements, false);
-  accessibilitySwitch(mapFiltersElements, false);
+const crateManageForms = (rules) => (forms) => {
+  [...forms].forEach(rules);
 };
+
+const createApplyRules = (method, isDisabled)=>(form) =>{
+  form.classList[method](form.dataset.disabled);
+  setInactiveStateForControls(form.elements, isDisabled);
+};
+
+export const setInactiveState = crateManageForms(createApplyRules('add',true));
+
+export const setActiveState = crateManageForms(createApplyRules('remove',false));
