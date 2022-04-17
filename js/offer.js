@@ -10,11 +10,13 @@ const fillOrRemoveElement = (element, content) => {
   }
   element.remove();
 };
+
 const findPhotoTemplate = (element) => {
   const template = element.querySelector('.popup__photo');
   template.remove();
   return template;
 };
+
 const createNewPhoto = (element) => (src) => {
   const result = element.cloneNode(true);
   result.src = src;
@@ -26,7 +28,7 @@ const fillPhotos = (element, photosURLs) => {
     return;
   }
   element.append(
-    ...photosURLs.map(
+    ...photosURLs.map(//ES6 — синтаксис оператора spread (…). Таким образом мы разворачиваем/копируем массив и создаём элементы на основе копии.
       createNewPhoto(
         findPhotoTemplate(element))));
 };
@@ -41,6 +43,15 @@ const formatPrice = (price) => {
 const formatCapacity = (rooms, guests) => {
   if(typeof rooms !== 'number'|| typeof guests !== 'number'){
     return undefined;
+  }
+  if(rooms === 1 && guests > 1){
+    return `${rooms} комната для ${guests} гостей`;
+  }
+  if(rooms > 1 && guests === 1){
+    return `${rooms} комнат для ${guests} гостя`;
+  }
+  if(rooms === 1 && guests === 1){
+    return `${rooms} комната для ${guests} гостя`;
   }
   return `${rooms} комнаты для ${guests} гостей`;
 };
@@ -113,4 +124,5 @@ export const fillTemplate = (element,{offer,author}) => {
     element.querySelector('.popup__avatar'),
     author
   );
+  return element;
 };
