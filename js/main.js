@@ -1,5 +1,6 @@
 import {posts} from './mock-data.js';
 import {fillTemplate} from './offer.js';
+import {setInactiveState, setActiveState} from './form.js';
 
 //window.console.log({posts});
 
@@ -12,3 +13,7 @@ test(
     posts[0]
   )
 );
+
+setInactiveState(document.forms);
+
+setTimeout(setActiveState,3000,document.forms);

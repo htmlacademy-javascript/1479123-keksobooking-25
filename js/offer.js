@@ -40,20 +40,14 @@ const formatPrice = (price) => {
   return undefined;
 };
 
+const formatRooms = (rooms) => (rooms === 1)?'Одна комната':`${rooms} комнат`;
+const formatGuests = (guests) => (guests === 1)?'одного гостя':`${guests} гостей`;
+
 const formatCapacity = (rooms, guests) => {
   if(typeof rooms !== 'number'|| typeof guests !== 'number'){
     return undefined;
   }
-  if(rooms === 1 && guests > 1){
-    return `${rooms} комната для ${guests} гостей`;
-  }
-  if(rooms > 1 && guests === 1){
-    return `${rooms} комнат для ${guests} гостя`;
-  }
-  if(rooms === 1 && guests === 1){
-    return `${rooms} комната для ${guests} гостя`;
-  }
-  return `${rooms} комнаты для ${guests} гостей`;
+  return `${formatRooms(rooms)} для ${formatGuests(guests)}`;
 };
 
 const formatCheckinCheckout = (checkin, checkout) => {
